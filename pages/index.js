@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
-export default function Home() {
+export default function Home({name}) {
   return (
     <div className={styles.container}>
       <Head>
@@ -15,7 +15,7 @@ export default function Home() {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
-
+        <div>{name}</div>
         <p className={styles.description}>
           Get started by editing{' '}
           <code className={styles.code}>pages/index.js</code>
@@ -68,4 +68,11 @@ export default function Home() {
       </footer>
     </div>
   )
+}
+
+Home.getInitialProps = async ({ req }) => {
+  const res = await fetch("http://localhost:3000/api/hello")
+  const json = await res.json()
+  console.log("json",json)
+  return {name: json.name}
 }
